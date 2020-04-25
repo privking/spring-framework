@@ -13,7 +13,7 @@ import priv.king.demo.service.DemoService2;
  **/
 @Configuration
 @ComponentScan("priv.king")
-@EnableAsync
+@EnableAspectJAutoProxy
 public class Config {
 
 

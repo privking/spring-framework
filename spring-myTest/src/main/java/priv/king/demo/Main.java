@@ -22,8 +22,8 @@ public class Main {
 		DemoService demoService = ac.getBean(DemoService.class);
 		System.out.println(demoService);
 		demoService.hello();
-//		Object demoService2 = ac.getBean("demoService2");
-//		System.out.println(demoService2);
+		Object demoService2 = ac.getBean("demoService2");
+		System.out.println(demoService2);
 
 
 
