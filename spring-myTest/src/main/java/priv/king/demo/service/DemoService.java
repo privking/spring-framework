@@ -15,9 +15,12 @@ import javax.annotation.Resource;
  **/
 @Service
 public class DemoService {
-	@Resource
 	DemoService2 demoService2;
 
+	public DemoService(DemoService2 demoService2) {
+		System.out.println(demoService2);
+		this.demoService2=demoService2;
+	}
 
 	public void hello(){
 		System.out.println("hello");

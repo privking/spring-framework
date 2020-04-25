@@ -261,6 +261,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 
 		// Let's check for lookup methods here...
 		//遍历所有方法，找Lookup注解，并且设置到bd中
+		//必须要在实例化之前解析
 		if (!this.lookupMethodsChecked.contains(beanName)) {
 			if (AnnotationUtils.isCandidateClass(beanClass, Lookup.class)) {
 				try {
@@ -295,6 +296,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 		}
 
 		// Quick check on the concurrent map first, with minimal locking.
+		//从缓存中获取
 		Constructor<?>[] candidateConstructors = this.candidateConstructorsCache.get(beanClass);
 		if (candidateConstructors == null) {
 			// Fully synchronized resolution now...
@@ -303,6 +305,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 				if (candidateConstructors == null) {
 					Constructor<?>[] rawCandidates;
 					try {
+						//获取到所有构造器
 						rawCandidates = beanClass.getDeclaredConstructors();
 					}
 					catch (Throwable ex) {
@@ -322,6 +325,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 						else if (primaryConstructor != null) {
 							continue;
 						}
+						//找@Autowire或@Value注解
 						MergedAnnotation<?> ann = findAutowiredAnnotation(candidate);
 						if (ann == null) {
 							Class<?> userClass = ClassUtils.getUserClass(beanClass);
@@ -343,8 +347,10 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 										". Found constructor with 'required' Autowired annotation already: " +
 										requiredConstructor);
 							}
+							//required属性
 							boolean required = determineRequiredStatus(ann);
 							if (required) {
+								//只能有一个构造器加注解required
 								if (!candidates.isEmpty()) {
 									throw new BeanCreationException(beanName,
 											"Invalid autowire-marked constructors: " + candidates +
@@ -353,16 +359,20 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 								}
 								requiredConstructor = candidate;
 							}
+							//添加到list中
 							candidates.add(candidate);
 						}
 						else if (candidate.getParameterCount() == 0) {
+							//设置默认空参构造器
 							defaultConstructor = candidate;
 						}
 					}
+					//至少有一个构造器加了注解
 					if (!candidates.isEmpty()) {
 						// Add default constructor to list of optional constructors, as fallback.
 						if (requiredConstructor == null) {
 							if (defaultConstructor != null) {
+								//如果没有必须的构造器，就把defaultConstructor添加到list中
 								candidates.add(defaultConstructor);
 							}
 							else if (candidates.size() == 1 && logger.isInfoEnabled()) {
@@ -375,6 +385,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 						candidateConstructors = candidates.toArray(new Constructor<?>[0]);
 					}
 					else if (rawCandidates.length == 1 && rawCandidates[0].getParameterCount() > 0) {
+						//如果只有唯一构造器（有参数），也加到candidateConstructors
 						candidateConstructors = new Constructor<?>[] {rawCandidates[0]};
 					}
 					else if (nonSyntheticConstructors == 2 && primaryConstructor != null &&
@@ -387,10 +398,16 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 					else {
 						candidateConstructors = new Constructor<?>[0];
 					}
+					//做缓存
 					this.candidateConstructorsCache.put(beanClass, candidateConstructors);
 				}
 			}
 		}
+		//当只有唯一的构造器的时候（有参），返回该构造器
+		//当有多个构造器，但是有没加注解，返回null
+		//只有默认构造器，返回null
+		//有多个构造器加了注解，都返回
+		//有多个构造器reqired属性，异常
 		return (candidateConstructors.length > 0 ? candidateConstructors : null);
 	}
 

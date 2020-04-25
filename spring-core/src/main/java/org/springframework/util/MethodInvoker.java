@@ -300,6 +300,11 @@ public class MethodInvoker {
 	 * <p>Note: This is the algorithm used by MethodInvoker itself and also the algorithm
 	 * used for constructor and factory method selection in Spring's bean container (in case
 	 * of lenient constructor resolution which is the default for regular bean definitions).
+	 * 如果参数类型不匹配直接返回Integer.MAX_VALUE
+	 * 初始化结果为0
+	 * 如果需要的类型是参数的父类，有n个继承结果就加n*2
+	 * 如果需要的是接口就+1
+	 *
 	 * @param paramTypes the parameter types to match
 	 * @param args the arguments to match
 	 * @return the accumulated weight for all arguments

@@ -13,8 +13,7 @@ import javax.annotation.Resource;
  **/
 @Service
 public class DemoService2 {
-	@Resource
-	DemoService demoService;
+
 
 	public DemoService2() {
 		System.out.println("demoService2构造器调用");
