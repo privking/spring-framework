@@ -155,7 +155,12 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	@Nullable
 	private String[] dependsOn;
-
+	/**
+	 * 设置这个bean是否可以被自动装配到其他bean中。
+	 * 请注意，此标志仅用于影响基于类型的自动装配。
+	 * 它不影响通过名称显式引用，即使指定的bean没有标记为autowire候选bean，也会解析该引用。
+	 * 因此，如果名字匹配，自动装配仍然会注入一个bean。
+	 */
 	private boolean autowireCandidate = true;
 
 	private boolean primary = false;
@@ -172,6 +177,10 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Nullable
 	private String factoryBeanName;
 
+	/**
+	 * <bean id="thenamedfmbean" class="springtest.FactoryMethodBean" factory-method="getNamedInstance">
+	 * 工厂方法，通过工厂方法返回实例对象，类似于getInstance
+	 */
 	@Nullable
 	private String factoryMethodName;
 
@@ -434,6 +443,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @see #getBeanClass()
 	 * @see #setBeanClass(Class)
 	 * @see #resolveBeanClass(ClassLoader)
+	 *
+	 * 是不是Class对象
 	 */
 	public boolean hasBeanClass() {
 		return (this.beanClass instanceof Class);
@@ -660,6 +671,11 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * autowiring by name will nevertheless inject a bean if the name matches.
 	 * @see #AUTOWIRE_BY_TYPE
 	 * @see #AUTOWIRE_BY_NAME
+	 *
+	 * 设置这个bean是否可以被自动装配到其他bean中。
+	 * 请注意，此标志仅用于影响基于类型的自动装配。
+	 * 它不影响通过名称显式引用，即使指定的bean没有标记为autowire候选bean，也会解析该引用。
+	 * 因此，如果名字匹配，自动装配仍然会注入一个bean。
 	 */
 	@Override
 	public void setAutowireCandidate(boolean autowireCandidate) {
@@ -821,6 +837,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * or otherwise as a static method on the local bean class.
 	 * @see #setFactoryBeanName
 	 * @see #setBeanClassName
+	 *
 	 */
 	@Override
 	public void setFactoryMethodName(@Nullable String factoryMethodName) {
@@ -900,6 +917,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * Return information about methods to be overridden by the IoC
 	 * container. This will be empty if there are no method overrides.
 	 * <p>Never returns {@code null}.
+	 * 返回关于要由IoC容器覆盖的方法的信息。如果没有方法覆盖，则该值为空。
+	 * 永远不会返回null。
 	 */
 	public MethodOverrides getMethodOverrides() {
 		return this.methodOverrides;

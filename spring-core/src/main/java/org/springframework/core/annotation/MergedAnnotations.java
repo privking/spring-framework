@@ -432,9 +432,26 @@ public interface MergedAnnotations extends Iterable<MergedAnnotation<Annotation>
 	enum SearchStrategy {
 
 		/**
+		 * 类继承关系中@Inherited的作用
+		 *
+		 * 类继承关系中，子类会继承父类使用的注解中被@Inherited修饰的注解
+		 *
+		 * 接口继承关系中@Inherited的作用
+		 *
+		 * 接口继承关系中，子接口不会继承父接口中的任何注解，不管父接口中使用的注解有没有被@Inherited修饰
+		 *
+		 * 类实现接口关系中@Inherited的作用
+		 *
+		 * 类实现接口时不会继承任何接口中定义的注解
+		 *
+		 */
+
+
+		/**
 		 * Find only directly declared annotations, without considering
 		 * {@link Inherited @Inherited} annotations and without searching
 		 * superclasses or implemented interfaces.
+		 * 只查找直接声明的注释，不考虑@Inherited注释，也不搜索超类或实现的接口。
 		 */
 		DIRECT,
 
@@ -445,6 +462,10 @@ public interface MergedAnnotations extends Iterable<MergedAnnotation<Annotation>
 		 * {@link Inherited @Inherited} annotation is ignored for all other
 		 * {@linkplain AnnotatedElement annotated elements}. This strategy does
 		 * not search implemented interfaces.
+		 *查找所有直接声明的注释以及任何@inherit超类注释。
+		 * 这种策略只有在与类类型一起使用时才真正有用，
+		 * 因为所有其他带注释的元素都忽略了@inherated注释。
+		 * 此策略不搜索已实现的interfaces
 		 */
 		INHERITED_ANNOTATIONS,
 
@@ -453,6 +474,10 @@ public interface MergedAnnotations extends Iterable<MergedAnnotation<Annotation>
 		 * is similar to {@link #INHERITED_ANNOTATIONS} except the annotations
 		 * do not need to be meta-annotated with {@link Inherited @Inherited}.
 		 * This strategy does not search implemented interfaces.
+		 * 查找所有直接声明的和超类注释。
+		 * 这种策略类似于INHERITED_ANNOTATIONS，
+		 * 只是这些标注不需要用@inherit进行元标注。
+		 * 此策略不搜索已实现的接口。
 		 */
 		SUPERCLASS,
 
@@ -460,6 +485,7 @@ public interface MergedAnnotations extends Iterable<MergedAnnotation<Annotation>
 		 * Perform a full search of the entire type hierarchy, including
 		 * superclasses and implemented interfaces. Superclass annotations do
 		 * not need to be meta-annotated with {@link Inherited @Inherited}.
+		 * 对整个类型层次结构执行完整的搜索，包括超类和实现的接口。超类注释不需要使用@ inherit进行元注释。
 		 */
 		TYPE_HIERARCHY,
 
@@ -471,6 +497,10 @@ public interface MergedAnnotations extends Iterable<MergedAnnotation<Annotation>
 		 * need to be meta-annotated with {@link Inherited @Inherited}. When
 		 * searching a {@link Method} source, this strategy is identical to
 		 * {@link #TYPE_HIERARCHY}.
+		 * 在源和任何封闭类上执行整个类型层次结构的完整搜索。
+		 * 这种策略与TYPE_HIERARCHY类似，只是也会搜索内部类。
+		 * 超类注释不需要使用@inherit进行元注释。
+		 * 在搜索方法源代码时，这个策略与TYPE_HIERARCHY相同。
 		 */
 		TYPE_HIERARCHY_AND_ENCLOSING_CLASSES
 	}

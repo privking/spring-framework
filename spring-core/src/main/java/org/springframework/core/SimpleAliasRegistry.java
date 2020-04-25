@@ -203,6 +203,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 
 	/**
 	 * Determine the raw name, resolving aliases to canonical names.
+	 * 检查是否是别名，如果是通过别名拿到真正的名字
 	 * @param name the user-specified name
 	 * @return the transformed name
 	 */

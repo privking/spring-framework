@@ -50,7 +50,8 @@ import java.lang.annotation.Target;
  * {@link java.lang.annotation.Inherited @Inherited}; furthermore, any
  * custom <em>composed annotation</em> that is meta-annotated with
  * {@code @Conditional} must not be declared as {@code @Inherited}.
- *
+ * {@code @Conditional}此注解使得只有在特定条件满足时才启用一些配置。
+ * 参数为Condition 的实现类数组，Condition 唯一方法matches
  * @author Phillip Webb
  * @author Sam Brannen
  * @since 4.0

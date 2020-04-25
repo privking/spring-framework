@@ -30,7 +30,8 @@ import org.springframework.lang.Nullable;
  *
  * <p>Used as placeholder by AbstractApplicationContext, if the context doesn't
  * define its own MessageSource. Not intended for direct use in applications.
- *
+ * <p>将所有调用委托给父MessageSource的空MessageSource。如果没有可用的父节点，它将不会解析任何消息。
+ * 如果上下文没有定义自己的MessageSource，则由AbstractApplicationContext用作占位符。不打算在应用程序中直接使用</p>
  * @author Juergen Hoeller
  * @since 1.1.5
  * @see AbstractApplicationContext

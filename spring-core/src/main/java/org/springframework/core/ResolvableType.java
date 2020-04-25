@@ -273,6 +273,9 @@ public class ResolvableType implements Serializable {
 	 * @param other the type to be checked against (as a {@code ResolvableType})
 	 * @return {@code true} if the specified other type can be assigned to this
 	 * {@code ResolvableType}; {@code false} otherwise
+	 *
+	 * 确定这个ResolvableType是否可以从指定的其他类型分配。
+	 * 尝试遵循与Java编译器相同的规则，考虑解析后的类是否可从给定类型分配，以及是否所有泛型都可分配
 	 */
 	public boolean isAssignableFrom(ResolvableType other) {
 		return isAssignableFrom(other, null);

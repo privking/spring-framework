@@ -135,6 +135,8 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 * <p>There is no expression support active in a BeanFactory by default.
 	 * An ApplicationContext will typically set a standard expression strategy
 	 * here, supporting "#{...}" expressions in a Unified EL compatible style.
+	 *
+	 * 配置EL表达式解析器
 	 * @since 3.0
 	 */
 	void setBeanExpressionResolver(@Nullable BeanExpressionResolver resolver);

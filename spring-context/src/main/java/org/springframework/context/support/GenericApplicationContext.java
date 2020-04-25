@@ -109,6 +109,8 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	 * @see #refresh
 	 */
 	public GenericApplicationContext() {
+		//默认将beanFactory实例为无参DefaultListableBeanFactory
+
 		this.beanFactory = new DefaultListableBeanFactory();
 	}
 
@@ -495,6 +497,7 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 			if (primaryCtor != null) {
 				return new Constructor<?>[] {primaryCtor};
 			}
+			//获取到所有 public Constructor
 			Constructor<?>[] publicCtors = clazz.getConstructors();
 			if (publicCtors.length > 0) {
 				return publicCtors;

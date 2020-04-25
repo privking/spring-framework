@@ -153,6 +153,7 @@ abstract class AnnotationsScanner {
 				if (isFiltered(source, context, classFilter)) {
 					continue;
 				}
+				//关键方法，最终获取到注解
 				Annotation[] declaredAnnotations =
 						getDeclaredAnnotations(context, source, classFilter, true);
 				if (relevant == null && declaredAnnotations.length > 0) {
@@ -496,6 +497,7 @@ abstract class AnnotationsScanner {
 			cached = true;
 		}
 		else {
+			//关键方法java.lang.reflect.AnnotatedElement#getDeclaredAnnotations
 			annotations = source.getDeclaredAnnotations();
 			if (annotations.length != 0) {
 				boolean allIgnored = true;

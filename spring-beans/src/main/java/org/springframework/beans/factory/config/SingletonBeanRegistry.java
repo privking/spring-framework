@@ -26,6 +26,8 @@ import org.springframework.lang.Nullable;
  *
  * <p>The {@link ConfigurableBeanFactory} interface extends this interface.
  *
+ * 统一的方式公开它们的单例管理功能。
+ *
  * @author Juergen Hoeller
  * @since 2.0
  * @see ConfigurableBeanFactory

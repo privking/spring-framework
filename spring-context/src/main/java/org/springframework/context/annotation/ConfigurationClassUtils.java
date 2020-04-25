@@ -88,7 +88,7 @@ abstract class ConfigurationClassUtils {
 		if (className == null || beanDef.getFactoryMethodName() != null) {
 			return false;
 		}
-
+		//获取metadata
 		AnnotationMetadata metadata;
 		if (beanDef instanceof AnnotatedBeanDefinition &&
 				className.equals(((AnnotatedBeanDefinition) beanDef).getMetadata().getClassName())) {
@@ -120,12 +120,19 @@ abstract class ConfigurationClassUtils {
 				return false;
 			}
 		}
-
+		//有没有configuration注解
 		Map<String, Object> config = metadata.getAnnotationAttributes(Configuration.class.getName());
 		if (config != null && !Boolean.FALSE.equals(config.get("proxyBeanMethods"))) {
+			//如果有Configuration注解就加上CONFIGURATION_CLASS_FULL标识
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_FULL);
 		}
+		// Component
+		// ComponentScan
+		// Import
+		// ImportResource
+		//方法上有没有Bean注解
 		else if (config != null || isConfigurationCandidate(metadata)) {
+			//没有加Configuration 但是有Import这些注解就标识为CONFIGURATION_CLASS_LITE
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_LITE);
 		}
 		else {
@@ -133,6 +140,7 @@ abstract class ConfigurationClassUtils {
 		}
 
 		// It's a full or lite configuration candidate... Let's determine the order value, if any.
+		//检查有没有Order注解
 		Integer order = getOrder(metadata);
 		if (order != null) {
 			beanDef.setAttribute(ORDER_ATTRIBUTE, order);
@@ -155,6 +163,10 @@ abstract class ConfigurationClassUtils {
 		}
 
 		// Any of the typical annotations found?
+		// Component
+		// ComponentScan
+		// Import
+		// ImportResource
 		for (String indicator : candidateIndicators) {
 			if (metadata.isAnnotated(indicator)) {
 				return true;
@@ -162,6 +174,7 @@ abstract class ConfigurationClassUtils {
 		}
 
 		// Finally, let's look for @Bean methods...
+		//检查有没有方法上有Bean注解
 		try {
 			return metadata.hasAnnotatedMethods(Bean.class.getName());
 		}

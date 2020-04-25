@@ -101,6 +101,7 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 	@Override
 	public boolean isPresent(String annotationType) {
+		//过滤
 		if (this.annotationFilter.matches(annotationType)) {
 			return false;
 		}
@@ -239,6 +240,7 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 			return processor.finish(result);
 		}
 		if (this.element != null && this.searchStrategy != null) {
+			//关键方法，扫描注解
 			return AnnotationsScanner.scan(criteria, this.element, this.searchStrategy, processor);
 		}
 		return null;

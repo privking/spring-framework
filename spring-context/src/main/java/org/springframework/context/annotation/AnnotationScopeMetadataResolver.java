@@ -85,6 +85,7 @@ public class AnnotationScopeMetadataResolver implements ScopeMetadataResolver {
 				metadata.setScopeName(attributes.getString("value"));
 				ScopedProxyMode proxyMode = attributes.getEnum("proxyMode");
 				if (proxyMode == ScopedProxyMode.DEFAULT) {
+					//默认的ProxyMode为NO
 					proxyMode = this.defaultProxyMode;
 				}
 				metadata.setScopedProxyMode(proxyMode);

@@ -52,12 +52,15 @@ public abstract class ScopedProxyUtils {
 	 * @return the scoped proxy definition
 	 * @see #getTargetBeanName(String)
 	 * @see #getOriginalBeanName(String)
+	 *
+	 * 改名字，该属性
 	 */
 	public static BeanDefinitionHolder createScopedProxy(BeanDefinitionHolder definition,
 			BeanDefinitionRegistry registry, boolean proxyTargetClass) {
 
 		String originalBeanName = definition.getBeanName();
 		BeanDefinition targetDefinition = definition.getBeanDefinition();
+		//给名字加上scopedTarget.前缀
 		String targetBeanName = getTargetBeanName(originalBeanName);
 
 		// Create a scoped proxy definition for the original bean name,
@@ -67,7 +70,7 @@ public abstract class ScopedProxyUtils {
 		proxyDefinition.setOriginatingBeanDefinition(targetDefinition);
 		proxyDefinition.setSource(definition.getSource());
 		proxyDefinition.setRole(targetDefinition.getRole());
-
+		//PropertyValue的ArrayList
 		proxyDefinition.getPropertyValues().add("targetBeanName", targetBeanName);
 		if (proxyTargetClass) {
 			targetDefinition.setAttribute(AutoProxyUtils.PRESERVE_TARGET_CLASS_ATTRIBUTE, Boolean.TRUE);
@@ -85,6 +88,7 @@ public abstract class ScopedProxyUtils {
 		}
 
 		// The target bean should be ignored in favor of the scoped proxy.
+		//不自动装配
 		targetDefinition.setAutowireCandidate(false);
 		targetDefinition.setPrimary(false);
 

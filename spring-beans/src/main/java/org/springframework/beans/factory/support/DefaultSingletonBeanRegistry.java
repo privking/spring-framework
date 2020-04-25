@@ -86,7 +86,9 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	private final Set<String> singletonsCurrentlyInCreation =
 			Collections.newSetFromMap(new ConcurrentHashMap<>(16));
 
-	/** Names of beans currently excluded from in creation checks. */
+	/** Names of beans currently excluded from in creation checks.
+	 * 当前在创建检查中被排除在外的bean的名称
+	 **/
 	private final Set<String> inCreationCheckExclusions =
 			Collections.newSetFromMap(new ConcurrentHashMap<>(16));
 
@@ -97,7 +99,9 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	/** Flag that indicates whether we're currently within destroySingletons. */
 	private boolean singletonsCurrentlyInDestruction = false;
 
-	/** Disposable bean instances: bean name to disposable instance. */
+	/** Disposable bean instances: bean name to disposable instance.
+	 * 一次性的bean
+	 * */
 	private final Map<String, Object> disposableBeans = new LinkedHashMap<>();
 
 	/** Map between containing bean names: bean name to Set of bean names that the bean contains. */
@@ -174,9 +178,12 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 */
 	@Nullable
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
+		//从单例池中拿
 		Object singletonObject = this.singletonObjects.get(beanName);
+		//判断是否有值并且当前是否正在创建中（Set<String> singletonsCurrentlyInCreation中有没有）
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
 			synchronized (this.singletonObjects) {
+				//从earlySingletonObjects中拿
 				singletonObject = this.earlySingletonObjects.get(beanName);
 				if (singletonObject == null && allowEarlyReference) {
 					ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
@@ -212,6 +219,8 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 				if (logger.isDebugEnabled()) {
 					logger.debug("Creating shared instance of singleton bean '" + beanName + "'");
 				}
+				//检查是否是当前排除在外的bean
+				//标记该bean正在创建中 Set  singletonsCurrentlyInCreation.add
 				beforeSingletonCreation(beanName);
 				boolean newSingleton = false;
 				boolean recordSuppressedExceptions = (this.suppressedExceptions == null);
@@ -219,6 +228,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					this.suppressedExceptions = new LinkedHashSet<>();
 				}
 				try {
+					//调用传进来的参数，lambda
 					singletonObject = singletonFactory.getObject();
 					newSingleton = true;
 				}
@@ -245,6 +255,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					afterSingletonCreation(beanName);
 				}
 				if (newSingleton) {
+					//添加到单例池中
 					addSingleton(beanName, singletonObject);
 				}
 			}
@@ -270,6 +281,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * to be able to clean up eager registration of a singleton if creation failed.
 	 * @param beanName the name of the bean
 	 * @see #getSingletonMutex()
+	 * 删除已经存在的singleton
 	 */
 	protected void removeSingleton(String beanName) {
 		synchronized (this.singletonObjects) {
@@ -331,6 +343,8 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	/**
 	 * Callback before singleton creation.
 	 * <p>The default implementation register the singleton as currently in creation.
+	 * <p>检查是否是当前被排除在外的bean
+	 * <p>设置该bean正在创建中  Set<String> singletonsCurrentlyInCreation.add
 	 * @param beanName the name of the singleton about to be created
 	 * @see #isSingletonCurrentlyInCreation
 	 */
@@ -533,6 +547,11 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 */
 	public void destroySingleton(String beanName) {
 		// Remove a registered singleton of the given name, if any.
+		//从map中删除
+		//singletonObjects
+		//singletonFactories
+		//earlySingletonObjects
+		//registeredSingletons
 		removeSingleton(beanName);
 
 		// Destroy the corresponding DisposableBean instance.

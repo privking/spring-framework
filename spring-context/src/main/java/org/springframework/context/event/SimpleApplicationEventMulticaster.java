@@ -152,6 +152,7 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 	 * @since 4.1
 	 */
 	protected void invokeListener(ApplicationListener<?> listener, ApplicationEvent event) {
+		//处理发生异常的Handler
 		ErrorHandler errorHandler = getErrorHandler();
 		if (errorHandler != null) {
 			try {
@@ -169,6 +170,7 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	private void doInvokeListener(ApplicationListener listener, ApplicationEvent event) {
 		try {
+			//调用Listener的onApplicationEvent方法
 			listener.onApplicationEvent(event);
 		}
 		catch (ClassCastException ex) {

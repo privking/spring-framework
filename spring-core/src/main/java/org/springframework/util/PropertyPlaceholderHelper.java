@@ -141,6 +141,7 @@ public class PropertyPlaceholderHelper {
 				if (visitedPlaceholders == null) {
 					visitedPlaceholders = new HashSet<>(4);
 				}
+				//set.add 当set中已有的时候返回false
 				if (!visitedPlaceholders.add(originalPlaceholder)) {
 					throw new IllegalArgumentException(
 							"Circular placeholder reference '" + originalPlaceholder + "' in property definitions");

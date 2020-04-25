@@ -20,7 +20,8 @@ import java.lang.annotation.Annotation;
 
 /**
  * Callback interface that can be used to filter specific annotation types.
- *
+ * 过滤注解的过滤器
+ * 还是一个FunctionInterface 实现 matches(String typeName);
  * @author Phillip Webb
  * @since 5.2
  */
@@ -31,18 +32,21 @@ public interface AnnotationFilter {
 	 * {@link AnnotationFilter} that matches annotations in the
 	 * {@code java.lang} and {@code org.springframework.lang} packages
 	 * and their subpackages.
+	 * 过滤lang 包下的注解的过滤器
 	 */
 	AnnotationFilter PLAIN = packages("java.lang", "org.springframework.lang");
 
 	/**
 	 * {@link AnnotationFilter} that matches annotations in the
 	 * {@code java} and {@code javax} packages and their subpackages.
+	 * 过滤Java的
 	 */
 	AnnotationFilter JAVA = packages("java", "javax");
 
 	/**
 	 * {@link AnnotationFilter} that always matches and can be used when no
 	 * relevant annotation types are expected to be present at all.
+	 * 过滤所有的
 	 */
 	AnnotationFilter ALL = new AnnotationFilter() {
 		@Override
@@ -66,6 +70,7 @@ public interface AnnotationFilter {
 	/**
 	 * {@link AnnotationFilter} that never matches and can be used when no
 	 * filtering is needed (allowing for any annotation types to be present).
+	 * 对所有的都不过滤
 	 */
 	AnnotationFilter NONE = new AnnotationFilter() {
 		@Override
@@ -116,6 +121,7 @@ public interface AnnotationFilter {
 	/**
 	 * Create a new {@link AnnotationFilter} that matches annotations in the
 	 * specified packages.
+	 * 对指定的包过滤
 	 * @param packages the annotation packages that should match
 	 * @return a new {@link AnnotationFilter} instance
 	 */

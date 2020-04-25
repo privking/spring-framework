@@ -25,7 +25,7 @@ import org.springframework.util.StringUtils;
 /**
  * {@link AnnotationFilter} implementation used for
  * {@link AnnotationFilter#packages(String...)}.
- *
+ *	对指定包下的注解进行过滤
  * @author Phillip Webb
  * @since 5.2
  */

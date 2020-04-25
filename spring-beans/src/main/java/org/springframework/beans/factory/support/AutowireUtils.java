@@ -62,6 +62,8 @@ abstract class AutowireUtils {
 	 * a maximum number of arguments. The result will contain public constructors first,
 	 * with decreasing number of arguments, then non-public constructors, again with
 	 * decreasing number of arguments.
+	 * 排序给定的构造函数，优先选择公共构造函数和参数数量最多的“贪婪”构造函数。
+	 * 结果将首先包含公共构造函数，参数数量减少，然后是非公共构造函数，参数数量再次减少。
 	 * @param constructors the constructor array to sort
 	 */
 	public static void sortConstructors(Constructor<?>[] constructors) {

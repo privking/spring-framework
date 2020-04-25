@@ -164,6 +164,8 @@ public abstract class StringUtils {
 	 * @see #hasText(CharSequence)
 	 * @see #hasLength(String)
 	 * @see Character#isWhitespace
+	 *
+	 * 判断是不是空，长度是不是0，是不是全部是空格
 	 */
 	public static boolean hasText(@Nullable String str) {
 		return (str != null && !str.isEmpty() && containsText(str));
@@ -185,6 +187,8 @@ public abstract class StringUtils {
 	 * @return {@code true} if the {@code CharSequence} is not empty and
 	 * contains at least 1 whitespace character
 	 * @see Character#isWhitespace
+	 *
+	 * 是不是包含空格
 	 */
 	public static boolean containsWhitespace(@Nullable CharSequence str) {
 		if (!hasLength(str)) {
@@ -216,6 +220,7 @@ public abstract class StringUtils {
 	 * @param str the {@code String} to check
 	 * @return the trimmed {@code String}
 	 * @see java.lang.Character#isWhitespace
+	 * 除去前后空格
 	 */
 	public static String trimWhitespace(String str) {
 		if (!hasLength(str)) {
@@ -242,6 +247,8 @@ public abstract class StringUtils {
 	 * @param str the {@code String} to check
 	 * @return the trimmed {@code String}
 	 * @see java.lang.Character#isWhitespace
+	 *
+	 * 除去所有空格
 	 */
 	public static String trimAllWhitespace(String str) {
 		if (!hasLength(str)) {
@@ -264,6 +271,8 @@ public abstract class StringUtils {
 	 * @param str the {@code String} to check
 	 * @return the trimmed {@code String}
 	 * @see java.lang.Character#isWhitespace
+	 *
+	 * 除去前面空格
 	 */
 	public static String trimLeadingWhitespace(String str) {
 		if (!hasLength(str)) {
@@ -282,6 +291,8 @@ public abstract class StringUtils {
 	 * @param str the {@code String} to check
 	 * @return the trimmed {@code String}
 	 * @see java.lang.Character#isWhitespace
+	 *
+	 * 除去后面空格
 	 */
 	public static String trimTrailingWhitespace(String str) {
 		if (!hasLength(str)) {
@@ -300,6 +311,8 @@ public abstract class StringUtils {
 	 * @param str the {@code String} to check
 	 * @param leadingCharacter the leading character to be trimmed
 	 * @return the trimmed {@code String}
+	 *
+	 * 除去指定前缀
 	 */
 	public static String trimLeadingCharacter(String str, char leadingCharacter) {
 		if (!hasLength(str)) {
@@ -318,6 +331,8 @@ public abstract class StringUtils {
 	 * @param str the {@code String} to check
 	 * @param trailingCharacter the trailing character to be trimmed
 	 * @return the trimmed {@code String}
+	 *
+	 * 除去指定后缀
 	 */
 	public static String trimTrailingCharacter(String str, char trailingCharacter) {
 		if (!hasLength(str)) {

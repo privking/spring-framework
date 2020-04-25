@@ -85,11 +85,17 @@ class ConditionEvaluator {
 		if (phase == null) {
 			if (metadata instanceof AnnotationMetadata &&
 					ConfigurationClassUtils.isConfigurationCandidate((AnnotationMetadata) metadata)) {
+				//判断这个类有没有加
+				// Component
+				// ComponentScan
+				// Import
+				// ImportResource注解
+				//方法上有没有加@Bean
 				return shouldSkip(metadata, ConfigurationPhase.PARSE_CONFIGURATION);
 			}
 			return shouldSkip(metadata, ConfigurationPhase.REGISTER_BEAN);
 		}
-
+		//获取Conditional注解的参数
 		List<Condition> conditions = new ArrayList<>();
 		for (String[] conditionClasses : getConditionClasses(metadata)) {
 			for (String conditionClass : conditionClasses) {
@@ -105,6 +111,7 @@ class ConditionEvaluator {
 			if (condition instanceof ConfigurationCondition) {
 				requiredPhase = ((ConfigurationCondition) condition).getConfigurationPhase();
 			}
+			//调用matches
 			if ((requiredPhase == null || requiredPhase == phase) && !condition.matches(this.context, metadata)) {
 				return true;
 			}

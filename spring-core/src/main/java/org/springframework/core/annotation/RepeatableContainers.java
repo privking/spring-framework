@@ -38,6 +38,7 @@ import org.springframework.util.ReflectionUtils;
  *
  * <p>To completely disable repeatable support use {@link #none()}.
  *
+ * <p>可重复注解的处理，详见@Repeatable</p>
  * @author Phillip Webb
  * @since 5.2
  */

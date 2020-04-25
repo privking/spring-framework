@@ -92,7 +92,18 @@ public @interface Scope {
 	 * has been configured at the component-scan instruction level.
 	 * <p>Analogous to {@code <aop:scoped-proxy/>} support in Spring XML.
 	 * @see ScopedProxyMode
+	 *
+	 * 作用域代理
+	 * 比如说一个作用域为session的service【购物车】需要注入到singleton的service【商品服务】中，
+	 * 但是在注入singleton的时候session并不存在
+	 * 所以配置proxyMode后就会被注入为代理
+	 * 当singleton调用session的时候代理会对其进行懒解析并将调用委任给会话作用域内真正的service
+	 * ScopedProxyMode.INTERFACES：JDK动态代理
+	 * ScopedProxyMode.TARGET_CLASS：cglib
+	 * ScopedProxyMode.DEFAULT：会被解析为NO
+	 *
 	 */
+
 	ScopedProxyMode proxyMode() default ScopedProxyMode.DEFAULT;
 
 }
